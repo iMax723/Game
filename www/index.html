@@ -39,31 +39,12 @@ window.addEventListener("load", function() {
 	var ready = false;
 	var resize;
 	var orientation;
-	var g = 1.5;
+	var g = 0.5;
 	
 
-	var imagePath = "img/";
-    var manifest =[{id:"backing",src:"bear.png"}];
-    var preload = new createjs.LoadQueue(false, imagePath);
-    preload.loadManifest(manifest);
-    preload.on("complete",game);
 
-    function game(){
-        
-        var backing = new createjs.Bitmap(preload.getResult("backing"));
-        var w = backing.getBounds().width;
-		var h = backing.getBounds().height;
-        backing.x = (stageW-w)/2;
-        backing.y = size*2;
-        //backing.setTransform(backing.x,backing.y,w*g,h*g);
-        
-        
-        stage.addChildAt(backing);
-        console.log(backing.x);
-        console.log(backing.getBounds().width);
 
-        stage.update();
-    };
+    
     console.log("good");
 
 	makeCanvas();
@@ -173,7 +154,7 @@ window.addEventListener("load", function() {
 		letter.x = letter.y = size/2;
 	}
 	tiles.x = (stageW-(size*cols+(cols-1)*spacing))/2;
-	tiles.y = 0;
+	tiles.y = stageH*0.1;
 
 	console.log(tiles);
 
@@ -219,7 +200,7 @@ window.addEventListener("load", function() {
 	hints.y = tray.height/2;
 
 
-	tray.y = stageW*0.95;
+	tray.y = stageH*0.75;
 
 	tray.cursor = "pointer";
 
@@ -233,27 +214,53 @@ window.addEventListener("load", function() {
 			.to({x:stageW/2 + e.swipeX*stageW*2 },500)
 
 			.call(function(){
+
+				var imagePath = "img/";
+			    var manifest =[{id:"backing",src:"bear.png"}];
+			    var preload = new createjs.LoadQueue(false, imagePath);
+			    preload.loadManifest(manifest);
+			    preload.on("complete",game);
+
+				function game(){
+			        
+			        var backing = new createjs.Bitmap(preload.getResult("backing"));
+			        var w = backing.getBounds().width;
+					var h = backing.getBounds().height;
+			        backing.x = (stageW-w)/2;
+			        backing.y = stageH*0.45;
+			        //backing.setTransform(backing.x,backing.y,w*g,h*g);
+			        
+			        stage.addChildAt(backing);
+			        createjs.Tween.get(backing)
+			// .to({x:stageW/2 + e.swipeX*stageW*2 },500)
+				.to({alpha:0},2000);
+			        console.log(backing.x);
+			        console.log(backing.getBounds().width);
+
+			        stage.update();
+			    };
+				
 				///////////////////////stageHints////////////////////////////////////////////	
 				tray.addChild(hints);
 				createjs.Tween.get(hints)
 			// .to({x:stageW/2 + e.swipeX*stageW*2 },500)
 			.to({alpha:0},2000);
 
-				if(words.indexOf(answer.text) >= 0){
+				// if(words.indexOf(answer.text) >= 0){
 
 
 
 
-					console.log("HINTS")
+				// 	console.log("HINTS")
 
-					points += bonus;
-					console.log(points);
+				// 	points += bonus;
+				// 	console.log(points);
 
 					
 
 
-					//indexOf 检索array中的相
-				}
+				// 	//indexOf 检索array中的相
+				// }
 
 				answer.text = "";
 				answer.x = stageW/2;
