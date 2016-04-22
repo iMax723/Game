@@ -5,8 +5,8 @@
 <title>IC Advanced Basics - LOGIC</title>
 
 <style>
-	body {margin:0px; padding:0px; background-color:#fff; overflow:hidden;}
-	#myCanvas {position:absolute; left:0px; top:0px; background-color:#fff;}
+	body {margin:0px; padding:0px; background-color:#000; overflow:hidden;}
+	#myCanvas {position:absolute; left:0px; top:0px; background-color:#000;}
 /*	.hero {
 		  z.index display: block;
 		  position: absolute;
@@ -39,8 +39,8 @@ window.addEventListener("load", function() {
 	var ready = false;
 	var resize;
 	var orientation;
-
-
+	var g = 1.5;
+	
 
 	var imagePath = "img/";
     var manifest =[{id:"backing",src:"bear.png"}];
@@ -51,11 +51,16 @@ window.addEventListener("load", function() {
     function game(){
         
         var backing = new createjs.Bitmap(preload.getResult("backing"));
-        //backing.setTransform(0,0,500,500);
-        backing.x = 0;
-        backing.y = 0;
+        var w = backing.getBounds().width;
+		var h = backing.getBounds().height;
+        backing.x = (stageW-w)/2;
+        backing.y = size*2;
+        //backing.setTransform(backing.x,backing.y,w*g,h*g);
+        
+        
         stage.addChildAt(backing);
-
+        console.log(backing.x);
+        console.log(backing.getBounds().width);
 
         stage.update();
     };
@@ -127,7 +132,7 @@ window.addEventListener("load", function() {
 	var spacing = stageW*.007;
 	var size = (stageW*.5-spacing*(cols-1))/cols;
 	var tile,backing,letter;
-	// tiles.x = stageW/2;
+	
 	for( i=0; i<total; i++){
 		// if (i == 6 || i == 7 || i == 8 || i == 11 || i == 12 || i == 13 || i == 16 || i == 17 || i == 18) continue;
 		var col = i%cols;
@@ -167,8 +172,8 @@ window.addEventListener("load", function() {
 		tile.addChild(letter);
 		letter.x = letter.y = size/2;
 	}
-	tiles.x = (stageW-tiles.width)/2;
-	tiles.y = stageW*.1;
+	tiles.x = (stageW-(size*cols+(cols-1)*spacing))/2;
+	tiles.y = 0;
 
 	console.log(tiles);
 
@@ -188,8 +193,9 @@ window.addEventListener("load", function() {
 
 	tray.height = stageH*.15;
 	// tray.width = stageH*.55;
-	stage.addChildAt(tray,0);
-	// stage.addChild(tray);
+	// stage.addChildAt(tray,0);
+	stage.addChild(tray);
+	stage.addChildAt(tiles,10);
 
 	var trayBacking = new createjs.Shape();
 	trayBacking.graphics.f("#314c5c").dr(0,0,stageW,stageH*.15);
@@ -218,7 +224,7 @@ window.addEventListener("load", function() {
 		createjs.Tween.get(answer)
 			.to({x:stageW/2 + e.swipeX*stageW*2 },500)
 			.call(function(){
-///////////////////////Hints////////////////////////////////////////////	
+				///////////////////////stageHints////////////////////////////////////////////	
 
 
 
@@ -254,14 +260,14 @@ window.addEventListener("load", function() {
 
 /////////////////Counter///////////
 
-var counter = 50;
-var countText = new createjs.Text(counter, "100px" + " arial", letterColor);
-stage.addChild(countText);
+	// var counter = 50;
+	// var countText = new createjs.Text(counter, "100px" + " arial", letterColor);
+	// stage.addChild(countText);
 
 
-var array = [];
+	// var array = [];
 
-var numString = "1234567";
+	// var numString = "1234567";
 
 
 
@@ -333,14 +339,13 @@ var numString = "1234567";
 		if (stage) stage.setBounds(0,0,stageW,stageH);
 		if (ready) resize();
 	}
-});
 
+
+});
 </script>
 </head>
 <body>
-<div class='hero'></div>
 
-var bitmap = new createjs.Bitmap("../bear.png");
 
 
 </body>
