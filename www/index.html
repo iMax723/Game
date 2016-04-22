@@ -203,12 +203,20 @@ window.addEventListener("load", function() {
 
 
 	var answer = new createjs.Text("SWIPE TO HINTS", size*.6 + "px impact", letterColor)
+
+	var hints = new createjs.Text("It's a animal.", size*.6 + "px impact", letterColor)
 	
 	answer.textAlign = "center";
 	answer.textBaseline = "middle";
 	tray.addChild(answer);
 	answer.x = stageW/2;
 	answer.y = tray.height/2;
+
+	hints.textAlign = "center";
+	hints.textBaseline = "middle";
+	// tray.addChild(hints);
+	hints.x = stageW/2;
+	hints.y = tray.height/2;
 
 
 	tray.y = stageW*0.95;
@@ -223,12 +231,18 @@ window.addEventListener("load", function() {
 
 		createjs.Tween.get(answer)
 			.to({x:stageW/2 + e.swipeX*stageW*2 },500)
+
 			.call(function(){
 				///////////////////////stageHints////////////////////////////////////////////	
-
-
+				tray.addChild(hints);
+				createjs.Tween.get(hints)
+			// .to({x:stageW/2 + e.swipeX*stageW*2 },500)
+			.to({alpha:0},2000);
 
 				if(words.indexOf(answer.text) >= 0){
+
+
+
 
 					console.log("HINTS")
 
