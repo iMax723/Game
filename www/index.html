@@ -52,8 +52,8 @@ window.addEventListener("load", function() {
         
         var backing = new createjs.Bitmap(preload.getResult("backing"));
         //backing.setTransform(0,0,500,500);
-        backing.x = 200;
-        backing.y = 200;
+        backing.x = 0;
+        backing.y = 0;
         stage.addChildAt(backing);
 
 
@@ -71,8 +71,8 @@ window.addEventListener("load", function() {
 	// end template header
 	//------------------------------------------
 
-	var cols = 6;
-	var rows = 6;
+	var cols = 7;
+	var rows = 7;
 	var tileColor = "#314c5c";
 	var letterColor = "#c4575c";
 
@@ -188,7 +188,8 @@ window.addEventListener("load", function() {
 
 	tray.height = stageH*.15;
 	// tray.width = stageH*.55;
-	stage.addChild(tray);
+	stage.addChildAt(tray,0);
+	// stage.addChild(tray);
 
 	var trayBacking = new createjs.Shape();
 	trayBacking.graphics.f("#314c5c").dr(0,0,stageW,stageH*.15);
@@ -217,7 +218,7 @@ window.addEventListener("load", function() {
 		createjs.Tween.get(answer)
 			.to({x:stageW/2 + e.swipeX*stageW*2 },500)
 			.call(function(){
-///////////////////////Score////////////////////////////////////////////	
+///////////////////////Hints////////////////////////////////////////////	
 
 
 
@@ -248,10 +249,10 @@ window.addEventListener("load", function() {
 
 	});
 
-//////////////////////////ticker////////////////////
+//////////////////////////Ticker////////////////////
 
 
-/////////////////counter///////////
+/////////////////Counter///////////
 
 var counter = 50;
 var countText = new createjs.Text(counter, "100px" + " arial", letterColor);

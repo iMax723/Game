@@ -14,7 +14,7 @@ var mobile = function(mobile) {
         return array;
     }
 
-    mobile.swipe = function(obj) {
+        mobile.swipe1 = function(obj) {
         console.log(obj);
         var distance = 10;
         var time = 100; // ms
@@ -34,7 +34,7 @@ var mobile = function(mobile) {
                 var diffX = mouseX - startX;
                 var diffY = mouseY - startY;
                 document.removeEventListener("mousemove", getMouse);
-                console.log(diffX, diffY);
+                // console.log(diffX, diffY);
                 var swipeX = 0;
                 var swipeY = 0;
                 if (Math.abs(diffX) > Math.abs(diffY)) { // swiping in x
@@ -61,6 +61,47 @@ var mobile = function(mobile) {
             }, time);
 
         })
+    }
+
+         mobile.swipe = function (obj) {
+
+        if (obj == null) return;
+        if (obj.getStage == null) return;
+        var stage = obj.getStage();
+
+        var swipeDistance = 5;
+        var swipeTime = 100;
+
+        obj.on("mousedown", function(){
+            var startX = stage.mouseX;
+            var startY = stage.mouseY;
+            var swipeTimeout = setTimeout(function() {
+                var newX = stage.mouseX;
+                var newY = stage.mouseY;
+                // console.log(newX - startX);
+                // console.log(newY - startY);
+                var diffX = Math.abs(newX-startX);
+                var diffY = Math.abs(newY-startY);
+                if (diffX < swipeDistance && diffY < swipeDistance) return;
+                var e = new createjs.Event("swipe");
+                if (diffX > diffY) {
+                    // console.log("swiping in X");
+                    e.swipeX = (newX-startX>1) ? 1 : -1;
+                    e.swipeY = 0;
+                } else {
+                    // console.log("swiping in Y");
+                    e.swipeX = 0
+                    e.swipeY = (newY-startY>1) ? 1 : -1;
+                }
+                obj.dispatchEvent(e);
+                // obj.dispatchEvent("swipe");
+            }, swipeTime);
+            var up = obj.on("pressup", function() {
+                clearTimeout(swipeTimeout);
+                obj.off("pressup", up);
+            });
+        });
+
     }
     return mobile;
 }(mobile || {})
